@@ -90,17 +90,17 @@ several recent generations to understand what effects changes may have had.
 
 There are several functions you can use to interact with the trace store:
 
-`trace-query` is the workhorse function. With no arguments, it prints every
+* `trace-query` is the workhorse function. With no arguments, it prints every
 trace from the current generation. With a numeric argument `generations`,
 it prints every trace from the past `generations` generations. With a
 regex argument `re`, it prints every trace from the current generation whose
 root stack frame matches the regex. Also accepts 2 arguments to specify the
 filtering regex and how many generations to include.
 
-`trace-next` moves onto the next generation. One usually calls this between
+* `trace-next` moves onto the next generation. One usually calls this between
 trials or experiments.
 
-`trace-clear` deletes all trace data collected so far. Since all trace
+* `trace-clear` deletes all trace data collected so far. Since all trace
 data is saved, that can become quite a lot of data, so this can be used
 to clean up very long running sessions.
 
