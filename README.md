@@ -37,7 +37,7 @@ many tracing statements enabled.
 
 Often, you may find that additional context would be beneficial, so
 you can request additional stack frames with the metadata key `:fs`
-(for *f*rame*s*):
+(first and last letters of "frames"):
 
     spyscope.repl=> (take 20 (repeat #spy/d ^{:fs 3} (+ 1 2 3)))
     ----------------------------------------
