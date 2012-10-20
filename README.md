@@ -72,7 +72,7 @@ This is controlled by setting the metadata key `:ast` to `true`:
     spyscope.repl$eval685.invoke(REPL:16) (- 16 10) => 6
     {:a 6, :b 6}
 
-### `spy/t`
+### `#spy/t`
 
 Finally, let's look at `#spy/t`. Tracing is very similar to detailed
 printing, but it enables us to get meaningful results when using `#spy/d`
