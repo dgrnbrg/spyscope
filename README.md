@@ -64,10 +64,10 @@ allows you to apply a regex to the stacktrace frames to filter out noise:
 
 The last feature of `#spy/d` is that it can print the code that generated
 the value, which can help you disambiguate multiple nearby related values.
-This is controlled by setting the metadata key `:ast` to `true`:
+This is controlled by setting the metadata key `:form` to `true`:
 
-    spyscope.repl=> {:a #spy/d ^{:ast true} (+ 1 2 3)
-                     :b #spy/d ^{:ast true} (- 16 10)}
+    spyscope.repl=> {:a #spy/d ^{:form true} (+ 1 2 3)
+                     :b #spy/d ^{:form true} (- 16 10)}
     spyscope.repl$eval685.invoke(REPL:16) (+ 1 2 3) => 6
     spyscope.repl$eval685.invoke(REPL:16) (- 16 10) => 6
     {:a 6, :b 6}
@@ -80,7 +80,7 @@ on a program that has multiple interacting threads without affecting
 most interactive development workflows!
 
 `#spy/t` accepts all of the metadata arguments that `#spy/d` does (i.e.
-`:fs`, `:nses`, and `:ast`).
+`:fs`, `:nses`, and `:form`).
 
 Instead of immediately printing out results, it stores them in an
 agent asynchronously. Each time a trace is logged, it is placed into

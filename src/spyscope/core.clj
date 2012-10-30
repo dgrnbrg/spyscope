@@ -53,7 +53,7 @@
                 (when multi-trace?
                   (str (str/join (repeat 40 \-)) \newline))
                 prefix
-                (when (:ast meta)
+                (when (:form meta)
                   (str " " (pr-str (::form meta))))
                 " => " value-string)
      :frame1 (str (first frames-base))}))
