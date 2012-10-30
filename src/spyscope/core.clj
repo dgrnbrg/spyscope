@@ -90,10 +90,11 @@
                                     :generation g#)))))
      f#))
 
-(defn fib 
-  "Fibonacci number generator--an experimental tracing candidate"
-  ([x]
-   (fib (dec x) x))
-  ([n x]
-   (if (zero? n) x (fib #spy/t ^{:ast true} (dec n)
-                        #spy/t ^{:ast true} (* n x)))))
+(comment
+  (defn fib
+    "Fibonacci number generator--an experimental tracing candidate"
+    ([x]
+     (fib (dec x) x))
+    ([n x]
+     (if (zero? n) x (fib #spy/t ^{:form true} (dec n)
+                          #spy/t ^{:form true} (* n x))))))
