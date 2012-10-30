@@ -72,6 +72,12 @@ This is controlled by setting the metadata key `:form` to `true`:
     spyscope.repl$eval685.invoke(REPL:16) (- 16 10) => 6
     {:a 6, :b 6}
 
+Under the hood, `#spy/d` actually does all of its printing on another thread
+--the tracing store thread! This provides 2 benefits: if you are printing
+from multiple threads, your output will not be interleaved amongst threads. The
+other benefit is that every trace statement is logged, so that you can use
+the `#spy/t` api to refine your search after you start tracing with `#spy/d`.
+
 ### `#spy/t`
 
 Finally, let's look at `#spy/t`. Tracing is very similar to detailed

@@ -61,11 +61,12 @@
 (defn print-log-detailed
   "Reader function to pprint a form's value with some extra information."
   [form]
-  (let [{:keys [fs nses]} (meta form)]
-    `(let [f# ~form]
-       (println (:message (pretty-render-value f# ~(assoc (meta form)
-                                                          ::form (list 'quote form)))))
-       f#)))
+  (letfn [(print [m] (assoc m ::print? true))]
+    (->> form
+      meta
+      print
+      (with-meta form)
+      trace)))
 
 (defn print-log
   "Reader function to pprint a form's value."
@@ -81,13 +82,16 @@
   `(let [f# ~form]
      (send trace-storage
            (fn [{g# :generation t# :trace :as storage#}]
-             (assoc storage#
-                    :trace
-                    (conj t# (assoc (pretty-render-value
-                                      f#
-                                      ~(assoc (meta form)
-                                              ::form (list 'quote form)))
-                                    :generation g#)))))
+             (let [value# (pretty-render-value
+                            f#
+                            ~(assoc (meta form)
+                                    ::form (list 'quote form)))]
+               (when ~(::print? (meta form))
+                 (println (:message value#)))
+               (assoc storage#
+                      :trace
+                      (conj t# (assoc value#
+                                      :generation g#))))))
      f#))
 
 (comment
