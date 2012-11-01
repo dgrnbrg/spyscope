@@ -4,7 +4,7 @@ A Clojure library designed to make it easy to debug single- and multi-threaded a
 
 ## Usage
 
-Add `[spyscope "0.1.0"]` to your project.clj's `:dependencies`.
+Add `[spyscope "0.1.1"]` to your project.clj's `:dependencies`.
 
 Spyscope includes 3 reader tools for debugging your Clojure code, which are exposed as reader tags:
 `#spy/p`, `#spy/d`, and `#spy/t`, which stand for *print*, *details*, and *trace*, respectively.
