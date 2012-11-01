@@ -58,16 +58,6 @@
                 " => " value-string)
      :frame1 (str (first frames-base))}))
 
-(defn print-log-detailed
-  "Reader function to pprint a form's value with some extra information."
-  [form]
-  (letfn [(print [m] (assoc m ::print? true))]
-    (->> form
-      meta
-      print
-      (with-meta form)
-      trace)))
-
 (defn print-log
   "Reader function to pprint a form's value."
   [form]
@@ -79,20 +69,29 @@
   "Reader function to store detailed information about a form's value at runtime
   into a trace that can be queried asynchronously."
   [form]
-  `(let [f# ~form]
-     (send trace-storage
-           (fn [{g# :generation t# :trace :as storage#}]
-             (let [value# (pretty-render-value
-                            f#
-                            ~(assoc (meta form)
-                                    ::form (list 'quote form)))]
-               (when ~(::print? (meta form))
-                 (println (:message value#)))
-               (assoc storage#
-                      :trace
-                      (conj t# (assoc value#
-                                      :generation g#))))))
+  `(let [f# ~form
+         value# (pretty-render-value f#
+                                     ~(assoc (meta form)
+                                        ::form (list 'quote form)))]
+     (send-off trace-storage
+               (fn [{g# :generation t# :trace :as storage#}]
+                 (when ~(::print? (meta form))
+                   (println (:message value#)))
+                 (assoc storage#
+                   :trace
+                   (conj t# (assoc value#
+                              :generation g#)))))
      f#))
+
+(defn print-log-detailed
+  "Reader function to pprint a form's value with some extra information."
+  [form]
+  (letfn [(print [m] (assoc m ::print? true))]
+    (->> form
+      meta
+      print
+      (with-meta form)
+      trace)))
 
 (comment
   (defn fib
