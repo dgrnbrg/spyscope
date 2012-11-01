@@ -70,7 +70,7 @@
   into a trace that can be queried asynchronously."
   [form]
   `(let [f# ~form]
-     (send trace-storage
+     (send-off trace-storage
            (fn [{g# :generation t# :trace :as storage#}]
              (let [value# (pretty-render-value
                             f#
