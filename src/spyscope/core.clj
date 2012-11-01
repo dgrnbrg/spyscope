@@ -58,16 +58,6 @@
                 " => " value-string)
      :frame1 (str (first frames-base))}))
 
-(defn print-log-detailed
-  "Reader function to pprint a form's value with some extra information."
-  [form]
-  (letfn [(print [m] (assoc m ::print? true))]
-    (->> form
-      meta
-      print
-      (with-meta form)
-      trace)))
-
 (defn print-log
   "Reader function to pprint a form's value."
   [form]
@@ -93,6 +83,16 @@
                       (conj t# (assoc value#
                                       :generation g#))))))
      f#))
+
+(defn print-log-detailed
+  "Reader function to pprint a form's value with some extra information."
+  [form]
+  (letfn [(print [m] (assoc m ::print? true))]
+    (->> form
+      meta
+      print
+      (with-meta form)
+      trace)))
 
 (comment
   (defn fib
