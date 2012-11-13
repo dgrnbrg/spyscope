@@ -4,7 +4,13 @@ A Clojure library designed to make it easy to debug single- and multi-threaded a
 
 ## Usage
 
-Add `[spyscope "0.1.1"]` to your project.clj's `:dependencies`.
+Add `[spyscope "0.1.2"]` to your project.clj's `:dependencies`.
+
+If you want spyscope to be automatically loaded and available in every project,
+add the following to the `:user` profile in `~/.lein/profiles.clj`:
+
+    :dependencies [[spyscope "0.1.2"]]
+    :injections [(require 'spyscope.core)]
 
 Spyscope includes 3 reader tools for debugging your Clojure code, which are exposed as reader tags:
 `#spy/p`, `#spy/d`, and `#spy/t`, which stand for *print*, *details*, and *trace*, respectively.
@@ -109,6 +115,10 @@ trials or experiments.
 * `trace-clear` deletes all trace data collected so far. Since all trace
 data is saved, that can become quite a lot of data, so this can be used
 to clean up very long running sessions.
+
+## Contributors
+
+David Greenberg (@dgrnbrg) and Herwig Hochleitner (@bendlas)
 
 ## License
 
