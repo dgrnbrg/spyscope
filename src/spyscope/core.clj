@@ -73,10 +73,10 @@
          value# (pretty-render-value f#
                                      ~(assoc (meta form)
                                         ::form (list 'quote form)))]
+     (when ~(::print? (meta form))
+       (print (str (:message value#) "\n")))
      (send-off trace-storage
                (fn [{g# :generation t# :trace :as storage#}]
-                 (when ~(::print? (meta form))
-                   (println (:message value#)))
                  (assoc storage#
                    :trace
                    (conj t# (assoc value#
