@@ -22,9 +22,11 @@ keystrokes, optimizing for developer happiness. :)
 
 First, let's look at `#spy/p`, which just pretty-prints the form of interest:
 
-    spyscope.repl=> (take 20 (repeat #spy/p (+ 1 2 3)))
-    6
-    (6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6)
+```clojure
+spyscope.repl=> (take 20 (repeat #spy/p (+ 1 2 3)))
+6
+(6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6)
+```
 
 `#spy/p` is an extremely simple tool that merely saves a few keystores when
 one needs to dump out a value in the middle of a calculation.
@@ -33,9 +35,11 @@ one needs to dump out a value in the middle of a calculation.
 
 Next, let's look at `#spy/d`. This is where the real power lies:
 
-    spyscope.repl=> (take 20 (repeat #spy/d (+ 1 2 3)))
-    spyscope.repl$eval672.invoke(REPL:12) => 6
-    (6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6)
+```clojure
+spyscope.repl=> (take 20 (repeat #spy/d (+ 1 2 3)))
+spyscope.repl$eval672.invoke(REPL:12) => 6
+(6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6)
+```
 
 In the simplest usage, the form is printed along with the stack trace
 it occurred on, which makes it easier to grep through logs that have
@@ -45,12 +49,14 @@ Often, you may find that additional context would be beneficial, so
 you can request additional stack frames with the metadata key `:fs`
 (first and last letters of "frames"):
 
-    spyscope.repl=> (take 20 (repeat #spy/d ^{:fs 3} (+ 1 2 3)))
-    ----------------------------------------
-    clojure.lang.Compiler.eval(Compiler.java:6477)
-    clojure.lang.Compiler.eval(Compiler.java:6511)
-    spyscope.repl$eval675.invoke(REPL:13) => 6
-    (6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6)
+```clojure
+spyscope.repl=> (take 20 (repeat #spy/d ^{:fs 3} (+ 1 2 3)))
+----------------------------------------
+clojure.lang.Compiler.eval(Compiler.java:6477)
+clojure.lang.Compiler.eval(Compiler.java:6511)
+spyscope.repl$eval675.invoke(REPL:13) => 6
+(6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6)
+```
 
 As you can see, when multiple stack frames are printed, a row of dashes
 is printed before the trace to keep the start of the stack frame group
@@ -61,22 +67,26 @@ certain values is important; however, if you print out 10 or 20 lines of
 stack trace, you'll end up with an unreadable mess. The metadata key `:nses`
 allows you to apply a regex to the stacktrace frames to filter out noise:
 
-    spyscope.repl=> (take 20 (repeat #spy/d ^{:fs 3 :nses #"core|spyscope"} (+ 1 2 3)))
-    ----------------------------------------
-    clojure.core$apply.invoke(core.clj:601)
-    clojure.core$eval.invoke(core.clj:2797)
-    spyscope.repl$eval678.invoke(REPL:14) => 6
-    (6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6)
+```clojure
+spyscope.repl=> (take 20 (repeat #spy/d ^{:fs 3 :nses #"core|spyscope"} (+ 1 2 3)))
+----------------------------------------
+clojure.core$apply.invoke(core.clj:601)
+clojure.core$eval.invoke(core.clj:2797)
+spyscope.repl$eval678.invoke(REPL:14) => 6
+(6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6)
+```
 
 The last feature of `#spy/d` is that it can print the code that generated
 the value, which can help you disambiguate multiple nearby related values.
 This is controlled by setting the metadata key `:form` to `true`:
 
-    spyscope.repl=> {:a #spy/d ^{:form true} (+ 1 2 3)
-                     :b #spy/d ^{:form true} (- 16 10)}
-    spyscope.repl$eval685.invoke(REPL:16) (+ 1 2 3) => 6
-    spyscope.repl$eval685.invoke(REPL:16) (- 16 10) => 6
-    {:a 6, :b 6}
+```clojure
+spyscope.repl=> {:a #spy/d ^{:form true} (+ 1 2 3)
+                 :b #spy/d ^{:form true} (- 16 10)}
+spyscope.repl$eval685.invoke(REPL:16) (+ 1 2 3) => 6
+spyscope.repl$eval685.invoke(REPL:16) (- 16 10) => 6
+{:a 6, :b 6}
+```
 
 Under the hood, `#spy/d` actually does all of its printing on another thread
 --the tracing store thread! This provides 2 benefits: if you are printing
@@ -117,6 +127,7 @@ data is saved, that can become quite a lot of data, so this can be used
 to clean up very long running sessions.
 
 ## Example annotated `#spy/t` session
+
 ```clojure
 ;;Let's run some code on futures, but see the chronological result
 user=> (future (Thread/sleep 1000) #spy/t (+ 1 2))
