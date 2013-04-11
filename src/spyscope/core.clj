@@ -1,7 +1,9 @@
 (ns spyscope.core
   "This co"
   (require [clojure.pprint :as pp]
-           [clojure.string :as str]))
+           [clojure.string :as str]
+           [clj-time.core :as time]
+           [clj-time.format :as fmt]))
 
 (defn- indent
   "Indents a string with `n` spaces."
@@ -16,7 +18,8 @@
   
   Prints the last `n` stack frames"
   [form meta]
-  (let [nses-regex (:nses meta)
+  (let [now (time/now)
+        nses-regex (:nses meta)
         n (or (:fs meta) 1)
         frames-base (->> (ex-info "" {})
                  .getStackTrace
@@ -53,7 +56,16 @@
                 (when multi-trace?
                   (str (str/join (repeat 40 \-)) \newline))
                 prefix
-                (when (:form meta)
+                (when-let [time? (:time meta)]
+                  (str " " (fmt/unparse (if (string? time?)
+                                          (fmt/formatter time?)
+                                          (fmt/formatters :date-hour-minute-second))
+                                        now))
+                  )
+                (when-let [marker (:marker meta)]
+                  (str " " marker))
+                (when (or (not (contains? meta :form))
+                          (:form meta))
                   (str " " (pr-str (::form meta))))
                 " => " value-string)
      :frame1 (str (first frames-base))}))

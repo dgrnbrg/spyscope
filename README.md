@@ -4,12 +4,12 @@ A Clojure library designed to make it easy to debug single- and multi-threaded a
 
 ## Usage
 
-Add `[spyscope "0.1.2"]` to your project.clj's `:dependencies`.
+Add `[spyscope "0.1.3"]` to your project.clj's `:dependencies`.
 
 If you want spyscope to be automatically loaded and available in every project,
 add the following to the `:user` profile in `~/.lein/profiles.clj`:
 
-    :dependencies [[spyscope "0.1.2"]]
+    :dependencies [[spyscope "0.1.3"]]
     :injections [(require 'spyscope.core)]
 
 Spyscope includes 3 reader tools for debugging your Clojure code, which are exposed as reader tags:
@@ -34,22 +34,32 @@ one needs to dump out a value in the middle of a calculation.
 Next, let's look at `#spy/d`. This is where the real power lies:
 
     spyscope.repl=> (take 20 (repeat #spy/d (+ 1 2 3)))
-    spyscope.repl$eval672.invoke(REPL:12) => 6
+    spyscope.repl$eval3869.invoke(NO_SOURCE_FILE:1) (+ 1 2 3) => 6
     (6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6)
 
 In the simplest usage, the form is printed along with the stack trace
 it occurred on, which makes it easier to grep through logs that have
 many tracing statements enabled.
 
-Often, you may find that additional context would be beneficial, so
-you can request additional stack frames with the metadata key `:fs`
-(first and last letters of "frames"):
+Often, you may find that additional context would be beneficial.
+One way to add context is to include a marker in all of the output.
+This lets you add a semantic name to any spy:
+
+    spyscope.repl=> #spy/d ^{:marker "triple-add"} (+ 1 2 3)
+    spyscope.repl$eval3935.invoke(NO_SOURCE_FILE:1) triple-add (+ 1 2 3) => 6
+    6
+
+In addition, you can request additional stack frames with the
+metadata key `:fs`, which gives you a richer context without you
+doing anything:
+
+aside: (`:fs` comes from first and last letters of "frames")
 
     spyscope.repl=> (take 20 (repeat #spy/d ^{:fs 3} (+ 1 2 3)))
     ----------------------------------------
     clojure.lang.Compiler.eval(Compiler.java:6477)
     clojure.lang.Compiler.eval(Compiler.java:6511)
-    spyscope.repl$eval675.invoke(REPL:13) => 6
+    spyscope.repl$eval675.invoke(REPL:13) (+ 1 2 3) => 6
     (6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6)
 
 As you can see, when multiple stack frames are printed, a row of dashes
@@ -65,17 +75,32 @@ allows you to apply a regex to the stacktrace frames to filter out noise:
     ----------------------------------------
     clojure.core$apply.invoke(core.clj:601)
     clojure.core$eval.invoke(core.clj:2797)
-    spyscope.repl$eval678.invoke(REPL:14) => 6
+    spyscope.repl$eval678.invoke(REPL:14) (+ 1 2 3) => 6
     (6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6)
 
-The last feature of `#spy/d` is that it can print the code that generated
-the value, which can help you disambiguate multiple nearby related values.
-This is controlled by setting the metadata key `:form` to `true`:
+If you leave your application unattended for a period of time, you may
+wish to have timestamps included in all the output lines. Spyscope can use
+a default time format, or a user-provided one:
+
+    ;; Default formatter is yyyy-mm-ddThh:mm:ss
+    spyscope.repl=> #spy/d ^{:time true} (+ 1 2 3)
+    spyscope.repl$eval4028.invoke(NO_SOURCE_FILE:1) 2013-04-11T03:20:46 (+ 1 2 3) => 6
+    6
+
+    ;; Custom formatters use clj-time
+    spyscope.repl=> #spy/d ^{:time "hh:mm:ss"} (+ 1 2 3)
+    spyscope.repl$eval4061.invoke(NO_SOURCE_FILE:1) 03:21:40 (+ 1 2 3) => 6
+    6
+
+The last feature of `#spy/d` is that it can suppress printing the code
+that generated the value, which can be used to de-clutter the output
+if you have particularly large forms. This is controlled by setting
+the metadata key `:form` to `false`:
 
     spyscope.repl=> {:a #spy/d ^{:form true} (+ 1 2 3)
                      :b #spy/d ^{:form true} (- 16 10)}
-    spyscope.repl$eval685.invoke(REPL:16) (+ 1 2 3) => 6
-    spyscope.repl$eval685.invoke(REPL:16) (- 16 10) => 6
+    spyscope.repl$eval685.invoke(REPL:16) => 6
+    spyscope.repl$eval685.invoke(REPL:16) => 6
     {:a 6, :b 6}
 
 Under the hood, `#spy/d` actually does all of its printing on another thread
