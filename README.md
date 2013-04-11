@@ -49,9 +49,11 @@ Often, you may find that additional context would be beneficial.
 One way to add context is to include a marker in all of the output.
 This lets you add a semantic name to any spy:
 
-    spyscope.repl=> #spy/d ^{:marker "triple-add"} (+ 1 2 3)
-    spyscope.repl$eval3935.invoke(NO_SOURCE_FILE:1) triple-add (+ 1 2 3) => 6
-    6
+```clojure
+spyscope.repl=> #spy/d ^{:marker "triple-add"} (+ 1 2 3)
+spyscope.repl$eval3935.invoke(NO_SOURCE_FILE:1) triple-add (+ 1 2 3) => 6
+6
+```
 
 In addition, you can request additional stack frames with the
 metadata key `:fs`, which gives you a richer context without you
@@ -106,8 +108,8 @@ if you have particularly large forms. This is controlled by setting
 the metadata key `:form` to `false`:
 
 ```clojure
-spyscope.repl=> {:a #spy/d ^{:form true} (+ 1 2 3)
-                 :b #spy/d ^{:form true} (- 16 10)}
+spyscope.repl=> {:a #spy/d ^{:form false} (+ 1 2 3)
+                 :b #spy/d ^{:form false} (- 16 10)}
 spyscope.repl$eval685.invoke(REPL:16) => 6
 spyscope.repl$eval685.invoke(REPL:16) => 6
 {:a 6, :b 6}
@@ -155,8 +157,8 @@ to clean up very long running sessions.
 
 ```clojure
 ;;Let's run some code on futures, but see the chronological result
-user=> (future (Thread/sleep 1000) #spy/t (+ 1 2))
-       (future #spy/t ^{:form 1} (+ 3 4))
+user=> (future (Thread/sleep 1000) #spy/t ^{:form false} (+ 1 2))
+       (future #spy/t (+ 3 4))
 #<Future@1013d7df: :pending>
 ;;We'll need to use the repl functions
 user=> (use 'spyscope.repl)
@@ -168,7 +170,7 @@ user$eval35677$fn__35689.invoke(NO_SOURCE_FILE:1) (+ 3 4) => 7
 user$eval35677$fn__35678.invoke(NO_SOURCE_FILE:1) => 3
 nil
 ;;We'll define and invoke a function with a #spy/t
-user=> (defn my-best-fn [] #spy/t (* 5 6))
+user=> (defn my-best-fn [] #spy/t ^{:form false} (* 5 6))
        (my-best-fn)
 30 ;Here's the return value--note that the trace isn't printed
 ;;Let's see all traces so far 
