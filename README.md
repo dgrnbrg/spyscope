@@ -92,15 +92,19 @@ If you leave your application unattended for a period of time, you may
 wish to have timestamps included in all the output lines. Spyscope can use
 a default time format, or a user-provided one:
 
-    ;; Default formatter is yyyy-mm-ddThh:mm:ss
-    spyscope.repl=> #spy/d ^{:time true} (+ 1 2 3)
-    spyscope.repl$eval4028.invoke(NO_SOURCE_FILE:1) 2013-04-11T03:20:46 (+ 1 2 3) => 6
-    6
+```clojure
+;; Default formatter is yyyy-mm-ddThh:mm:ss
+spyscope.repl=> #spy/d ^{:time true} (+ 1 2 3)
+spyscope.repl$eval4028.invoke(NO_SOURCE_FILE:1) 2013-04-11T03:20:46 (+ 1 2 3) => 6
+6
+```
 
-    ;; Custom formatters use clj-time
-    spyscope.repl=> #spy/d ^{:time "hh:mm:ss"} (+ 1 2 3)
-    spyscope.repl$eval4061.invoke(NO_SOURCE_FILE:1) 03:21:40 (+ 1 2 3) => 6
-    6
+```clojure
+;; Custom formatters use clj-time
+spyscope.repl=> #spy/d ^{:time "hh:mm:ss"} (+ 1 2 3)
+spyscope.repl$eval4061.invoke(NO_SOURCE_FILE:1) 03:21:40 (+ 1 2 3) => 6
+6
+```
 
 The last feature of `#spy/d` is that it can suppress printing the code
 that generated the value, which can be used to de-clutter the output
