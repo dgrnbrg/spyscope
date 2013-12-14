@@ -4,12 +4,12 @@ A Clojure library designed to make it easy to debug single- and multi-threaded a
 
 ## Usage
 
-Add `[spyscope "0.1.3"]` to your project.clj's `:dependencies`.
+Add `[spyscope "0.1.4"]` to your project.clj's `:dependencies`.
 
 If you want spyscope to be automatically loaded and available in every project,
 add the following to the `:user` profile in `~/.lein/profiles.clj`:
 
-    :dependencies [[spyscope "0.1.3"]]
+    :dependencies [[spyscope "0.1.4"]]
     :injections [(require 'spyscope.core)]
 
 Spyscope includes 3 reader tools for debugging your Clojure code, which are exposed as reader tags:
