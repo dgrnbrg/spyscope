@@ -105,11 +105,10 @@
       (with-meta form)
       trace)))
 
-(comment
-  (defn fib
-    "Fibonacci number generator--an experimental tracing candidate"
-    ([x]
-     (fib (dec x) x))
-    ([n x]
-     (if (zero? n) x (fib #spy/t ^{:form true} (dec n)
-                          #spy/t ^{:form true} (* n x))))))
+  ; (defn fib
+  ;   "Fibonacci number generator--an experimental tracing candidate"
+  ;   ([x]
+  ;   (fib (dec x) x))
+  ;   ([n x]
+  ;   (if (zero? n) x (fib #spy/t ^{:form true} (dec n)
+  ;                         #spy/t ^{:form true} (* n x)))))
