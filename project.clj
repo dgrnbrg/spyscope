@@ -1,4 +1,4 @@
-(defproject spyscope "0.1.5-SNAPSHOT"
+(defproject spyscope "0.1.5"
   :description "Trace-oriented debugging tools for Clojure"
   :url "http://github.com/dgrnbrg/spyscope"
   :license {:name "Eclipse Public License"
