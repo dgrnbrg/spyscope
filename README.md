@@ -35,9 +35,6 @@ Reader tags were chosen because they allow one to use Spyscope by only writing 6
 since they exist only to the left of the form one wants to debug, they require the fewest possible
 keystrokes, optimizing for developer happiness. :)
 
-
-
-
 ### `#spy/p`
 
 First, let's look at `#spy/p`, which just pretty-prints the form of interest:
