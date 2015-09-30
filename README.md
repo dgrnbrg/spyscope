@@ -2,7 +2,10 @@
 
 A Clojure library designed to make it easy to debug single- and multi-threaded applications.
 
-## Usage
+## Installation
+
+
+#### Leiningen
 
 Add `[spyscope "0.1.5"]` to your project.clj's `:dependencies`.
 
@@ -11,6 +14,20 @@ add the following to the `:user` profile in `~/.lein/profiles.clj`:
 
     :dependencies [[spyscope "0.1.5"]]
     :injections [(require 'spyscope.core)]
+
+#### Boot
+
+After requiring the namespace, you must also run `(boot.core/load-data-readers!)` 
+to get the reader tags working. Using a `~/.boot/profile.boot` file:
+
+```
+(set-env! :dependencies #(conj % '[spyscope "0.1.5"]))
+
+(require 'spyscope.core)
+(boot.core/load-data-readers!)
+```
+
+## Usage
 
 Spyscope includes 3 reader tools for debugging your Clojure code, which are exposed as reader tags:
 `#spy/p`, `#spy/d`, and `#spy/t`, which stand for *print*, *details*, and *trace*, respectively.
