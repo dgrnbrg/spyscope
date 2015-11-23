@@ -1,6 +1,6 @@
 (ns spyscope.core
   "This co"
-  (require [clojure.pprint :as pp]
+  (require [puget.printer :as pp]
            [clojure.string :as str]
            [clj-time.core :as time]
            [clj-time.format :as fmt]))
@@ -36,7 +36,7 @@
                  
 
         w (java.io.StringWriter.)
-        _ (pp/pprint form w)
+        _ (pp/cprint form w)
         value-string (str w)
 
         ;Strip trailing line break
@@ -73,7 +73,7 @@
 (defn print-log
   "Reader function to pprint a form's value."
   [form]
-  `(doto ~form pp/pprint))
+  `(doto ~form pp/cprint))
 
 (def ^{:internal true} trace-storage (agent {:trace [] :generation 0}))
 

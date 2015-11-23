@@ -4,5 +4,6 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :deploy-repositories  [["releases" :clojars]]
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [clj-time "0.7.0"]])
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [clj-time "0.7.0"]
+                 [mvxcvi/puget "1.0.0"]])
