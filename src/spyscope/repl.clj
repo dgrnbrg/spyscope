@@ -1,7 +1,7 @@
 (ns spyscope.repl
   "This contains the query functions suitable for inspecting traces
   from the repl."
-  (require [clojure.string :as str]) 
+  (:require [clojure.string :as str]) 
   (:use [spyscope.core :only [trace-storage]]))
 
 (defn trace-query
