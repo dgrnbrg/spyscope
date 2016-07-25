@@ -1,9 +1,9 @@
 (ns spyscope.core
   "This co"
-  (require [puget.printer :as pp]
-           [clojure.string :as str]
-           [clj-time.core :as time]
-           [clj-time.format :as fmt]))
+  (:require [puget.printer :as pp]
+            [clojure.string :as str]
+            [clj-time.core :as time]
+            [clj-time.format :as fmt]))
 
 (defn- indent
   "Indents a string with `n` spaces."
