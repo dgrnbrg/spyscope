@@ -6,4 +6,5 @@
   :deploy-repositories  [["releases" :clojars]]
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [clj-time "0.7.0"]
-                 [mvxcvi/puget "1.0.0"]])
+                 [mvxcvi/puget "1.0.0"]]
+  :eval-in-leiningen true)
