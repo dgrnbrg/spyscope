@@ -1,5 +1,4 @@
 (ns spyscope.core
-  "This co"
   (:require [puget.printer :as pp]
             [clojure.string :as str]
             [clj-time.core :as time]
