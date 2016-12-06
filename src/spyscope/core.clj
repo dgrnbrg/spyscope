@@ -14,7 +14,7 @@
 
 (defn pretty-render-value
   "Prints out a form and some extra info for tracing/debugging.
-  
+
   Prints the last `n` stack frames"
   [form meta]
   (let [now (time/now)
@@ -23,20 +23,17 @@
         frames-base (->> (ex-info "" {})
                  .getStackTrace
                  seq
-                 (drop 2)) 
+                 (drop 2))
         frames (if nses-regex
                  (filter (comp (partial re-find nses-regex) str)
                          frames-base)
-                 frames-base) 
+                 frames-base)
         frames (->> frames
-                 (take n) 
-                 (map str) 
-                 (reverse)) 
-                 
+                 (take n)
+                 (map str)
+                 (reverse))
 
-        w (java.io.StringWriter.)
-        _ (pp/cprint form w)
-        value-string (str w)
+        value-string (pp/cprint-str form)
 
         ;Strip trailing line break
         value-string  (.substring value-string 0 (dec (count value-string)))
