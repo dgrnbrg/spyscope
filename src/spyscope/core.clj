@@ -29,6 +29,7 @@
                          frames-base)
                  frames-base)
         frames (->> frames
+                    (remove #(clojure.string/includes? % "spyscope.core"))
                     (take n)
                     (map str)
                     (reverse))
