@@ -7,12 +7,12 @@ A Clojure library designed to make it easy to debug single- and multi-threaded a
 
 #### Leiningen
 
-Add `[spyscope "0.1.5"]` to your project.clj's `:dependencies`.
+Add `[spyscope "0.1.6"]` to your project.clj's `:dependencies`.
 
 If you want spyscope to be automatically loaded and available in every project,
 add the following to the `:user` profile in `~/.lein/profiles.clj`:
 
-    :dependencies [[spyscope "0.1.5"]]
+    :dependencies [[spyscope "0.1.6"]]
     :injections [(require 'spyscope.core)]
 
 #### Boot
@@ -21,7 +21,7 @@ After requiring the namespace, you must also run `(boot.core/load-data-readers!)
 to get the reader tags working. Using a `~/.boot/profile.boot` file:
 
 ```
-(set-env! :dependencies #(conj % '[spyscope "0.1.5"]))
+(set-env! :dependencies #(conj % '[spyscope "0.1.6"]))
 
 (require 'spyscope.core)
 (boot.core/load-data-readers!)
