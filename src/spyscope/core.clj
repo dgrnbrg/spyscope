@@ -36,9 +36,6 @@
 
         value-string (pp/cprint-str form)
 
-        ;Strip trailing line break
-        value-string  (.substring value-string 0 (dec (count value-string)))
-
         ;Are there multiple trace lines?
         multi-trace? (> n 1)
 
