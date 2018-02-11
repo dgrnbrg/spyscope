@@ -9,8 +9,8 @@
   [n string]
   (let [indent (str/join (repeat n " "))]
     (->> (str/split string #"\n")
-    (map (partial str indent))
-    (str/join "\n"))))
+         (map (partial str indent))
+         (str/join "\n"))))
 
 (defn pretty-render-value
   "Prints out a form and some extra info for tracing/debugging.
@@ -21,17 +21,18 @@
         nses-regex (:nses meta)
         n (or (:fs meta) 1)
         frames-base (->> (ex-info "" {})
-                 .getStackTrace
-                 seq
-                 (drop 2))
+                         .getStackTrace
+                         seq
+                         (drop 2))
         frames (if nses-regex
                  (filter (comp (partial re-find nses-regex) str)
                          frames-base)
                  frames-base)
         frames (->> frames
-                 (take n)
-                 (map str)
-                 (reverse))
+                    (remove #(clojure.string/includes? % "spyscope.core"))
+                    (take n)
+                    (map str)
+                    (reverse))
 
         value-string (pp/cprint-str form)
 
@@ -56,8 +57,7 @@
                   (str " " (fmt/unparse (if (string? time?)
                                           (fmt/formatter time?)
                                           (fmt/formatters :date-hour-minute-second))
-                                        now))
-                  )
+                                        now)))
                 (when-let [marker (:marker meta)]
                   (str " " marker))
                 (when (or (not (contains? meta :form))
@@ -96,10 +96,10 @@
   [form]
   (letfn [(print [m] (assoc m ::print? true))]
     (->> form
-      meta
-      print
-      (with-meta form)
-      trace)))
+         meta
+         print
+         (with-meta form)
+         trace)))
 
   ; (defn fib
   ;   "Fibonacci number generator--an experimental tracing candidate"
