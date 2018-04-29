@@ -13,9 +13,9 @@
                  [clj-time "0.14.3"]
                  [com.andrewmcveigh/cljs-time "0.5.2"]
                  [net.cgrand/macrovich "0.2.1"]
-                 ;[mvxcvi/puget "1.0.2"]
-                 [mvxcvi/puget "1.0.2" :exclusions [org.clojure/core.rrb-vector]]
-                 [quantum/org.clojure.core.rrb-vector "0.0.12"]]
+                 [mvxcvi/puget "1.0.2" :exclusions [brandonbloom/fipp]]
+                 [bigml/fipp "0.6.8"]]
+
 
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-doo "0.1.10" :exclusions [org.clojure/clojurescript]]]

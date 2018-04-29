@@ -9,7 +9,7 @@
 
 (deftest print-log-detailed-test
   (spyscope.repl/trace-clear)
-  (is (re-matches #"spyscope\.tests\.print_log_detailed_test\.cljs.*\(\+ 1 2 3\) => 6\n"
+  (is (re-matches #"spyscope\.tests\.print_log_detailed_test\.cljs.*\(\+ 1 2 3\) => 6"
                   (with-out-str #spy/d (+ 1 2 3)))))
 
 (deftest trace-test

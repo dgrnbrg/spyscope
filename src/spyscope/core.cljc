@@ -1,16 +1,12 @@
 (ns spyscope.core
   (:require [clojure.string :as str]
-
             #?(:clj  [clj-time.core :as time]
                :cljs [cljs-time.core :as time])
-
             #?(:clj  [clj-time.format :as fmt]
                :cljs [cljs-time.format :as fmt])
-
             #?(:clj  [puget.printer :as pp]))
   #?(:clj  (:require [net.cgrand.macrovich :as macrovich])
      :cljs (:require-macros [net.cgrand.macrovich :as macrovich])))
-
 
 (defn- indent
   "Indents a string with `n` spaces."
@@ -91,8 +87,7 @@
   [form]
   `(macrovich/case
      :clj  (doto ~form pp/cprint)
-     :cljs (println ~form)))
-
+     :cljs (doto ~form println)))
 
 ; Trace storage - an atom rather than an agent is used in cljs.
 #?(:clj  (def ^{:internal true} trace-storage (agent {:trace [] :generation 0}))
@@ -107,7 +102,9 @@
                                      ~(assoc (meta form)
                                         ::form (list 'quote form)))]
      (when ~(::print? (meta form))
-       (print (str (:message value#) "\n")))
+       (macrovich/case
+         :clj  (print (str (:message value#) "\n"))
+         :cljs (print (str (:message value#)))))
      ((macrovich/case :clj send-off :cljs swap!) trace-storage
                (fn [{g# :generation t# :trace :as storage#}]
                  (assoc storage#
@@ -115,7 +112,6 @@
                    (conj t# (assoc value#
                               :generation g#)))))
      f#))
-
 
 (defn print-log-detailed
   "Reader function to pprint a form's value with some extra information."
