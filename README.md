@@ -1,6 +1,6 @@
 # Spyscope
 
-A Clojure library designed to make it easy to debug single- and multi-threaded applications.
+A Clojure(Script) library designed to make it easy to debug single- and multi-threaded applications.
 
 ## Installation
 
